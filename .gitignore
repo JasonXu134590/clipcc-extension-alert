@@ -18,5 +18,4 @@ node_modules/
 .pnp.*
 
 # Develop
-dist
 build
