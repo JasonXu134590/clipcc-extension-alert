@@ -1,0 +1,9 @@
+{
+    "jasonxu.alert.name": "Alert",
+    "jasonxu.alert.description": "Alert Extension",
+    "jasonxu.alert.alert.messageId": "Alert",
+    "jasonxu.alert.simple": "alert [MESSAGE]",
+    "jasonxu.alert.confirm": "confirm [MESSAGE]",
+    "jasonxu.alert.prompt": "input [MESSAGE]",
+    "jasonxu.alert.openWindow": "open window [URL] title [TITLE] width [WIDTH] height [HEIGHT]"
+}
