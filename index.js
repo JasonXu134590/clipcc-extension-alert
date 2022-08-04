@@ -107,6 +107,10 @@ class AlertExtension extends Extension {
                 if (!bucket.isEmpty) return alert(args.MESSAGE);
             },
             param:{
+                TITLE:{
+                    type: type.ParameterType.STRING,
+                    default: 'Dannr yyds'
+                },
                 MESSAGE:{
                     type: type.ParameterType.STRING,
                     default: 'ClipTeam yyds!'
