@@ -2,8 +2,8 @@
     "jasonxu.alert.name": "弹出框",
     "jasonxu.alert.description": "弹出框扩展",
     "jasonxu.alert.alert.messageId": "弹出框",
-    "jasonxu.alert.simple": "弹出提示框 [MESSAGE]",
-    "jasonxu.alert.confirm": "弹出询问框 [MESSAGE]",
+    "jasonxu.alert.simple": "弹出提示框 [TITLE] [MESSAGE]",
+    "jasonxu.alert.confirm": "弹出询问框 [TITLE] [MESSAGE]",
     "jasonxu.alert.prompt": "弹出输入框 [MESSAGE]",
     "jasonxu.alert.openWindow": "弹出网页窗口 [URL] 标题 [TITLE] 宽度 [WIDTH] 高度 [HEIGHT]"
 }
