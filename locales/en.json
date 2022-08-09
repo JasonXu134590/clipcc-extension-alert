@@ -5,5 +5,6 @@
     "jasonxu.alert.simple": "alert [TITLE] [MESSAGE]",
     "jasonxu.alert.confirm": "confirm [TITLE] [MESSAGE]",
     "jasonxu.alert.prompt": "input [MESSAGE]",
-    "jasonxu.alert.openWindow": "open window [URL] title [TITLE] width [WIDTH] height [HEIGHT]"
+    "jasonxu.alert.openWindow": "open window [URL] title [TITLE] width [WIDTH] height [HEIGHT]",
+    "jasonxu.alert.setUrl": "jump to new page[URL]"
 }

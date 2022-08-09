@@ -12,24 +12,20 @@ class CandyBucket {
     }
     
     get isEmpty () {
-        if (this._currentCandy === 0) return true;
+        /*if (this._currentCandy === 0) return true;
         else {
             this._currentCandy --;
             return false;
-        }
+        }*/
+        return false;//取消次数限制
     }
 }
 
 
 class AlertExtension extends Extension {
-    openWindow(url,title,width,height){
-        window.open(url,title,'width='+width+',height='+height)
-        return;
-    }
-
     onInit() {
         const { version } = api.getVmInstance().runtime;
-        const isCommunity = version.startsWith('c');
+        const isOffline = version.includes(' ')&&!version.startsWith('c')//检测是否为桌面版
         const bucket = new CandyBucket();
         let alerting = false;
         
@@ -76,7 +72,10 @@ class AlertExtension extends Extension {
             messageId: 'jasonxu.alert.prompt',
             categoryId: 'jasonxu.alert.alert',
             function: args => {
-                if (!bucket.isEmpty) return prompt(args.MESSAGE);
+                if (!bucket.isEmpty){
+                    if(!isOffline)  return prompt(args.MESSAGE);//桌面版不支持prompt
+                    else    return NaN;
+                }
             },
             param:{
                 MESSAGE:{
@@ -123,11 +122,23 @@ class AlertExtension extends Extension {
             messageId: 'jasonxu.alert.openWindow',
             categoryId: 'jasonxu.alert.alert',
             function: args => {
-                if (!isCommunity) {
-                    this.openWindow(args.URL,args.TITLE,args.WIDTH,args.HEIGHT);
-                } else {
-                    console.warn('open window is unavailable in community version');
+                let allow;
+                if (window.clipAlert) {
+                    if (alerting) return;
+                    if (!bucket.isEmpty) {
+                        allow = new Promise(resolve => {
+                            alerting = true;
+                            clipAlert('提示', '项目正在尝试打开新窗口：'+args.URL)
+                                .then(result => {
+                                    alerting = false;
+                                    resolve(result);
+                                });
+                        });
+                    }
                 }
+                if (!bucket.isEmpty) allow = confirm('项目正在尝试打开新窗口：'+args.URL);
+                if (allow)   window.open(args.URL,args.TITLE,'width='+args.WIDTH+',height='+args.HEIGHT)
+                return;
             },
             param:{
                 URL:{
@@ -142,6 +153,38 @@ class AlertExtension extends Extension {
                 },TITLE:{
                     type: type.ParameterType.STRING,
                     default: 'NewWindow'
+                }
+            }
+        });
+
+        api.addBlock({
+            opcode: 'jasonxu.alert.setUrl.opcode',
+            type: type.BlockType.COMMAND,
+            messageId: 'jasonxu.alert.setUrl',
+            categoryId: 'jasonxu.alert.alert',
+            function: args => {
+                let allow=false;
+                if (window.clipAlert) {
+                    if (alerting) return;
+                    if (!bucket.isEmpty) {
+                        allow = new Promise(resolve => {
+                            alerting = true;
+                            clipAlert('提示', '项目正在尝试跳转到新页面'+args.URL)
+                                .then(result => {
+                                    alerting = false;
+                                    resolve(result);
+                                });
+                        });
+                    }
+                }
+                if (!bucket.isEmpty) allow = confirm('项目正在尝试跳转到新页面：'+args.URL);
+                if (allow)   window.location.href=args.URL;
+                return;
+            },
+            param:{
+                URL:{
+                    type: type.ParameterType.STRING,
+                    default: 'https://codingclip.com'
                 }
             }
         });

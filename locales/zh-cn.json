@@ -5,5 +5,6 @@
     "jasonxu.alert.simple": "弹出提示框 [TITLE] [MESSAGE]",
     "jasonxu.alert.confirm": "弹出询问框 [TITLE] [MESSAGE]",
     "jasonxu.alert.prompt": "弹出输入框 [MESSAGE]",
-    "jasonxu.alert.openWindow": "弹出网页窗口 [URL] 标题 [TITLE] 宽度 [WIDTH] 高度 [HEIGHT]"
+    "jasonxu.alert.openWindow": "弹出网页窗口 [URL] 标题 [TITLE] 宽度 [WIDTH] 高度 [HEIGHT]",
+    "jasonxu.alert.setUrl": "跳转到新页面[URL]"
 }
