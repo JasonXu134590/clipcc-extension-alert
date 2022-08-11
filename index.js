@@ -125,7 +125,7 @@ class AlertExtension extends Extension {
                 if (window.clipAlert) {
                     if (alerting) return;
                     if (!bucket.isEmpty) {
-                        allow = new Promise(resolve => {
+                        new Promise(() => {
                             alerting = true;
                             clipAlert('提示', '项目正在尝试打开新窗口：' + args.URL)
                                 .then(result => {
@@ -166,7 +166,7 @@ class AlertExtension extends Extension {
                 if (window.clipAlert) {
                     if (alerting) return;
                     if (!bucket.isEmpty) {
-                        allow = new Promise(resolve => {
+                        new Promise(() => {
                             alerting = true;
                             clipAlert('提示', '项目正在尝试跳转到新页面' + args.URL)
                                 .then(result => {
