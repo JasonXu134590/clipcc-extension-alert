@@ -1,17 +1,17 @@
 const { Extension, type, api } = require('clipcc-extension');
 
 class CandyBucket {
-    constructor (candy = 5, refresh = 20 * 1000) {
+    constructor(candy = 5, refresh = 20 * 1000) {
         this._currentCandy = candy;
         this._full = candy;
         setInterval(() => {
             if (this._currentCandy < this._full) {
-                this._currentCandy ++;
+                this._currentCandy++;
             }
         }, refresh);
     }
-    
-    get isEmpty () {
+
+    get isEmpty() {
         /*if (this._currentCandy === 0) return true;
         else {
             this._currentCandy --;
@@ -25,10 +25,10 @@ class CandyBucket {
 class AlertExtension extends Extension {
     onInit() {
         const { version } = api.getVmInstance().runtime;
-        const isOffline = version.includes(' ')&&!version.startsWith('c')//检测是否为桌面版
+        const isOffline = version.includes(' ') && !version.startsWith('c')//检测是否为桌面版
         const bucket = new CandyBucket();
         let alerting = false;
-        
+
         api.addCategory({
             categoryId: 'jasonxu.alert.alert',
             messageId: 'jasonxu.alert.alert.messageId',
@@ -55,12 +55,12 @@ class AlertExtension extends Extension {
                 }
                 if (!bucket.isEmpty) return confirm(args.MESSAGE);
             },
-            param:{
-                TITLE:{
+            param: {
+                TITLE: {
                     type: type.ParameterType.STRING,
                     default: 'Here\'s an example'
                 },
-                MESSAGE:{
+                MESSAGE: {
                     type: type.ParameterType.STRING,
                     default: 'AlexCui AK IOI?'
                 }
@@ -72,13 +72,13 @@ class AlertExtension extends Extension {
             messageId: 'jasonxu.alert.prompt',
             categoryId: 'jasonxu.alert.alert',
             function: args => {
-                if (!bucket.isEmpty){
-                    if(!isOffline)  return prompt(args.MESSAGE);//桌面版不支持prompt
-                    else    return NaN;
+                if (!bucket.isEmpty) {
+                    if (!isOffline) return prompt(args.MESSAGE);//桌面版不支持prompt
+                    else return NaN;
                 }
             },
-            param:{
-                MESSAGE:{
+            param: {
+                MESSAGE: {
                     type: type.ParameterType.STRING,
                     default: 'What is your name?'
                 }
@@ -105,12 +105,12 @@ class AlertExtension extends Extension {
                 }
                 if (!bucket.isEmpty) return alert(args.MESSAGE);
             },
-            param:{
-                TITLE:{
+            param: {
+                TITLE: {
                     type: type.ParameterType.STRING,
                     default: 'Dannr yyds'
                 },
-                MESSAGE:{
+                MESSAGE: {
                     type: type.ParameterType.STRING,
                     default: 'ClipTeam yyds!'
                 }
@@ -122,35 +122,35 @@ class AlertExtension extends Extension {
             messageId: 'jasonxu.alert.openWindow',
             categoryId: 'jasonxu.alert.alert',
             function: args => {
-                let allow;
                 if (window.clipAlert) {
                     if (alerting) return;
                     if (!bucket.isEmpty) {
                         allow = new Promise(resolve => {
                             alerting = true;
-                            clipAlert('提示', '项目正在尝试打开新窗口：'+args.URL)
+                            clipAlert('提示', '项目正在尝试打开新窗口：' + args.URL)
                                 .then(result => {
                                     alerting = false;
-                                    resolve(result);
+                                    if (result) window.open(args.URL, args.TITLE, 'width=' + args.WIDTH + ',height=' + args.HEIGHT);
                                 });
                         });
                     }
                 }
-                if (!bucket.isEmpty) allow = confirm('项目正在尝试打开新窗口：'+args.URL);
-                if (allow)   window.open(args.URL,args.TITLE,'width='+args.WIDTH+',height='+args.HEIGHT)
+                else if (!bucket.isEmpty) {
+                    if (confirm('项目正在尝试打开新窗口：' + args.URL)) window.open(args.URL, args.TITLE, 'width=' + args.WIDTH + ',height=' + args.HEIGHT);
+                }
                 return;
             },
-            param:{
-                URL:{
+            param: {
+                URL: {
                     type: type.ParameterType.STRING,
                     default: 'https://codingclip.com'
-                },WIDTH:{
+                }, WIDTH: {
                     type: type.ParameterType.STRING,
                     default: '200'
-                },HEIGHT:{
+                }, HEIGHT: {
                     type: type.ParameterType.STRING,
                     default: '100'
-                },TITLE:{
+                }, TITLE: {
                     type: type.ParameterType.STRING,
                     default: 'NewWindow'
                 }
@@ -163,26 +163,27 @@ class AlertExtension extends Extension {
             messageId: 'jasonxu.alert.setUrl',
             categoryId: 'jasonxu.alert.alert',
             function: args => {
-                let allow=false;
                 if (window.clipAlert) {
                     if (alerting) return;
                     if (!bucket.isEmpty) {
                         allow = new Promise(resolve => {
                             alerting = true;
-                            clipAlert('提示', '项目正在尝试跳转到新页面'+args.URL)
+                            clipAlert('提示', '项目正在尝试跳转到新页面' + args.URL)
                                 .then(result => {
                                     alerting = false;
-                                    resolve(result);
+                                    if (result) window.location.href = args.URL;
+                                    return;
                                 });
                         });
                     }
                 }
-                if (!bucket.isEmpty) allow = confirm('项目正在尝试跳转到新页面：'+args.URL);
-                if (allow)   window.location.href=args.URL;
+                else if (!bucket.isEmpty) {
+                    if (confirm('项目正在尝试跳转到新页面：' + args.URL)) window.location.href = args.URL;
+                }
                 return;
             },
-            param:{
-                URL:{
+            param: {
+                URL: {
                     type: type.ParameterType.STRING,
                     default: 'https://codingclip.com'
                 }
@@ -190,7 +191,7 @@ class AlertExtension extends Extension {
         });
     }
 
-    onUninit(){
+    onUninit() {
         api.removeCategory('jasonxu.alert.alert');
     }
 }
