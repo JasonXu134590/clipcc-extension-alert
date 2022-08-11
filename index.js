@@ -24,8 +24,6 @@ class CandyBucket {
 
 class AlertExtension extends Extension {
     onInit() {
-        const { version } = api.getVmInstance().runtime;
-        const isOffline = version.includes(' ') && !version.startsWith('c')//检测是否为桌面版
         const bucket = new CandyBucket();
         let alerting = false;
 
@@ -72,9 +70,12 @@ class AlertExtension extends Extension {
             messageId: 'jasonxu.alert.prompt',
             categoryId: 'jasonxu.alert.alert',
             function: args => {
-                if (!bucket.isEmpty) {
-                    if (!isOffline) return prompt(args.MESSAGE);//桌面版不支持prompt
-                    else return NaN;
+                try {
+                    if (!bucket.isEmpty) {
+                        return prompt(args.MESSAGE);
+                    }
+                } catch {
+                    return NaN;
                 }
             },
             param: {
