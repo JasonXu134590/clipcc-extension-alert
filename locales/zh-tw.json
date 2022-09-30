@@ -1,0 +1,10 @@
+{
+    "jasonxu.alert.name": "對話框",
+    "jasonxu.alert.description": "彈出對話框",
+    "jasonxu.alert.alert.messageId": "對話框",
+    "jasonxu.alert.simple": "彈出對話框 [TITLE] [MESSAGE]",
+    "jasonxu.alert.confirm": "彈出詢問框 [TITLE] [MESSAGE]",
+    "jasonxu.alert.prompt": "彈出輸入框 [MESSAGE]",
+    "jasonxu.alert.openWindow": "彈出視窗 [URL] 標題 [TITLE] 寬度 [WIDTH] 高度 [HEIGHT]",
+    "jasonxu.alert.setUrl": "跳轉到新頁面[URL]"
+}
